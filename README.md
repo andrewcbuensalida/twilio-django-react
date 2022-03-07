@@ -127,3 +127,5 @@ If you want to include a polyfill, you need to:
         - install 'util'
 If you don't want to include a polyfill, you can use an empty module like this:   
         resolve.fallback: { "util": false }
+
+had to change react-scripts to 4.0.3
