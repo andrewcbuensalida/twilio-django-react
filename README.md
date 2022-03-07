@@ -112,3 +112,18 @@ curl -X GET https://2eec-2600-1010-b046-ad33-c051-6ad9-bbe4-5533.ngrok.io/api/to
 still the same error
 
 had to remove the .decode("utf-8") in api/views.py TokenView because i guess python3 already decodes it. now i get a proper jwt which i can plug into jwt.io to see the username
+
+
+curl -X GET https://2eec-2600-1010-b046-ad33-c051-6ad9-bbe4-5533.ngrok.io/api/rooms
+
+
+getting an error
+Module not found: Error: Can't resolve 'util' in 'C:\swe\twilio-django-react\audio-chat\node_modules\backoff\lib'
+BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default.
+This is no longer the case. Verify if you need this module and configure a polyfill for it.
+
+If you want to include a polyfill, you need to:
+        - add a fallback 'resolve.fallback: { "util": require.resolve("util/") }' 
+        - install 'util'
+If you don't want to include a polyfill, you can use an empty module like this:   
+        resolve.fallback: { "util": false }

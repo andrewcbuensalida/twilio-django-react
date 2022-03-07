@@ -5,7 +5,9 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from twilio.twiml.voice_response import VoiceResponse, Dial
 from twilio.jwt.access_token import AccessToken, grants
+from twilio.rest import Client
 
+client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
 class TokenView(View):
     def get(self, request, username, *args, **kwargs):
@@ -26,6 +28,21 @@ class TokenView(View):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class RoomView(View):
+    def get(self, request, *args, **kwargs):
+        rooms = client.conferences.stream(
+            status="in-progress"
+        )
+        rooms_reps = [
+            {
+                "room_name": conference.friendly_name,
+                "sid": conference.sid,
+                "participants": [
+                        p.label for p in conference.participants.list()
+                    ],
+                "status": conference.status,
+            } for conference in rooms]
+        return JsonResponse({"rooms": rooms_reps})
+        
     def post(self, request, *args, **kwargs):
         room_name = request.POST["roomName"]
         participant_label = request.POST["participantLabel"]
